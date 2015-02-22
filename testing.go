@@ -15,17 +15,14 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package openpgp
+package testing
 
 import (
 	"os"
 	"path/filepath"
 	"runtime"
 
-	"golang.org/x/crypto/openpgp/armor"
 	gc "gopkg.in/check.v1"
-
-	"gopkg.in/hockeypuck/openpgp.v0"
 )
 
 func MustInput(c *gc.C, name string) *os.File {
@@ -39,26 +36,4 @@ func MustInput(c *gc.C, name string) *os.File {
 		c.Fatalf("cannot open unit test data file %q: %v", path, err)
 	}
 	return f
-}
-
-func MustInputAscKeys(c *gc.C, name string) []*openpgp.Pubkey {
-	f := MustInput(c, name)
-	defer f.Close()
-	block, err := armor.Decode(f)
-	c.Assert(err, gc.IsNil)
-
-	var result []*openpgp.Pubkey
-	for keyRead := range openpgp.ReadKeys(block.Body) {
-		c.Assert(keyRead.Error, gc.IsNil)
-		result = append(result, keyRead.Pubkey)
-	}
-	return result
-}
-
-func MustInputAscKey(c *gc.C, name string) *openpgp.Pubkey {
-	keys := MustInputAscKeys(c, name)
-	if len(keys) != 1 {
-		c.Fatalf("expected one key, got %d", len(keys))
-	}
-	return keys[0]
 }
