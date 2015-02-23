@@ -18,22 +18,21 @@
 package testing
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
-
-	gc "gopkg.in/check.v1"
 )
 
-func MustInput(c *gc.C, name string) *os.File {
+func MustInput(name string) *os.File {
 	_, thisFile, _, ok := runtime.Caller(0)
 	if !ok {
-		c.Fatal("cannot locate unit test data files")
+		panic(fmt.Errorf("cannot locate unit test data files"))
 	}
 	path := filepath.Join(filepath.Dir(thisFile), "data", name)
 	f, err := os.Open(path)
 	if err != nil {
-		c.Fatalf("cannot open unit test data file %q: %v", path, err)
+		panic(fmt.Errorf("cannot open unit test data file %q: %v", path, err))
 	}
 	return f
 }
