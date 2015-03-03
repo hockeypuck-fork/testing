@@ -1,0 +1,9 @@
+---
+- service: name=hockeypuck state=stopped
+- shell: date '+%Y%m%d%H%M%S'
+  register: ts
+- shell: mongo hkp --eval "db.copyDatabase('hkp', 'hkp_{{ ts.stdout }}')"
+- shell: mongo hkp --eval "db.dropDatabase()"
+- shell: mv /var/log/hockeypuck/hockeypuck.log "/var/log/hockeypuck/hockeypuck.log.{{ ts.stdout }}"
+- shell: mv /var/lib/hockeypuck/recon-ptree "/var/lib/hockeypuck/recon-ptree.{{ ts.stdout }}"
+- service: name=hockeypuck state=restarted

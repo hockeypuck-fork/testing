@@ -1,0 +1,21 @@
+---
+# Set up Hockeypuck user, paths
+- group: name=hockeypuck
+- user: name=hockeypuck group=hockeypuck createhome=no
+- file: path={{ item }} owner=hockeypuck group=hockeypuck mode=0755 state=directory
+  with_items:
+    - /var/lib/hockeypuck
+    - /var/log/hockeypuck
+    - /etc/hockeypuck
+
+# Install Hockeypuck service & binary
+- copy: src=hockeypuck.conf dest=/etc/init/hockeypuck.conf owner=hockeypuck group=hockeypuck mode=0644
+- local_action: shell go build -o hockeypuck github.com/hockeypuck/server/cmd/hockeypuck
+  sudo: no
+- service: name=hockeypuck state=stopped
+- copy: src=hockeypuck dest=/usr/bin/hockeypuck mode=0755
+
+# Install MongoDB
+- apt: pkg=mongodb-server state=installed update_cache=yes state=latest
+- service: name=mongodb state=stopped
+

@@ -1,0 +1,13 @@
+---
+- hosts: hockeypucks
+  sudo: yes
+  roles:
+    - install
+    - config
+
+- hosts: skses
+  sudo: yes
+  roles:
+    - install-sks
+    - config-sks
+

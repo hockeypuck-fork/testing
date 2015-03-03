@@ -1,0 +1,5 @@
+---
+- hosts: hockeypucks
+  sudo: yes
+  roles:
+    - config

@@ -1,0 +1,2 @@
+---
+- apt: pkg=sks state=installed update_cache=yes state=latest

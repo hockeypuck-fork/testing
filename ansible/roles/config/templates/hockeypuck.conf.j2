@@ -1,0 +1,33 @@
+[hockeypuck]
+logfile="/var/log/hockeypuck/hockeypuck.log"
+loglevel="{{ loglevel }}"
+
+[hockeypuck.hkp]
+bind=":11371"
+
+[hockeypuck.conflux.recon]
+httpAddr=":11371"
+reconAddr=":11370"
+readTimeout=300
+
+[hockeypuck.conflux.recon.leveldb]
+path="/var/lib/hockeypuck/recon-ptree"
+
+{% for host in groups["hockeypucks"] %}
+{% if hostvars[host]['inventory_hostname'] != inventory_hostname %}
+[hockeypuck.conflux.recon.partner.{{ hostvars[host]['peer_name']}}]
+httpAddr="{{ hostvars[host]['ansible_default_ipv4']['address'] }}:11371"
+reconAddr="{{ hostvars[host]['ansible_default_ipv4']['address'] }}:11370"
+{% endif %}
+
+{% endfor %}
+
+{% if "skses" in groups %}
+{% for host in groups["skses"] %}
+[hockeypuck.conflux.recon.partner.{{ hostvars[host]['peer_name']}}]
+httpAddr="{{ hostvars[host]['ansible_default_ipv4']['address'] }}:11371"
+reconAddr="{{ hostvars[host]['ansible_default_ipv4']['address'] }}:11370"
+
+{% endfor %}
+{% endif %}
+
