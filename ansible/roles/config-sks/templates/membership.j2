@@ -12,15 +12,9 @@
 # Example:
 # keyserver.linux.it 11370
 
-# SKS peers
-{% for host in groups["skses"] %}
+{% for host in groups["peers"] %}
 {% if hostvars[host]['inventory_hostname'] != inventory_hostname %}
 {{ hostvars[host]['ansible_default_ipv4']['address'] }} 11370
 {% endif %}
 {% endfor %}
 
-# Hockeypuck peers
-{% for host in groups["hockeypucks"] %}
-{{ hostvars[host]['ansible_default_ipv4']['address'] }} 11370
-{% endif %}
-{% endfor %}

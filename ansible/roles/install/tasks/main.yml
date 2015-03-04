@@ -16,6 +16,6 @@
 - copy: src=hockeypuck dest=/usr/bin/hockeypuck mode=0755
 
 # Install MongoDB
-- apt: pkg=mongodb-server state=installed update_cache=yes state=latest
+- apt: pkg=mongodb-server update_cache=yes state=latest
 - service: name=mongodb state=stopped
 

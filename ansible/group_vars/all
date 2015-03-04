@@ -1,4 +1,10 @@
 ---
 loglevel: DEBUG
-local_dump: /var/data/sks-dump
-int_data: /var/data/sks_data
+
+dump_source: rsync://keyserver.secretresearchfacility.com/dump/
+dump_local: /var/data/sks-dump/
+dump_remote: /var/data/sks-dump/
+data_files:
+ - sks-dump-0000.pgp
+ - sks-dump-0001.pgp
+ - sks-dump-0002.pgp

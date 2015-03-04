@@ -1,5 +1,6 @@
 ---
 - service: name=hockeypuck state=stopped
+- service: name=mongodb state=started
 - shell: date '+%Y%m%d%H%M%S'
   register: ts
 - shell: mongo hkp --eval "db.copyDatabase('hkp', 'hkp_{{ ts.stdout }}')"
