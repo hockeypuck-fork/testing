@@ -1,0 +1,10 @@
+---
+- file: path={{ dump_remote }} state=absent
+- file: path={{ dump_remote }} state=directory owner=debian-sks group=debian-sks mode=0755
+
+- copy: src=/var/data/sks-dump/{{ item }} dest={{ dump_remote }}/{{ item }} mode=644
+  with_items: data_files
+
+- service: name=sks state=stopped
+- shell: su - debian-sks -c 'cd /var/lib/sks; /usr/sbin/sks merge -pagesize 128 -ptree_pagesize 16 -n 2 -cache 64 {{dump_remote}}/*.pgp'
+- service: name=sks state=started
