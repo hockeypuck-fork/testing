@@ -1,0 +1,7 @@
+---
+- hosts: sks
+  sudo: yes
+  tasks:
+   - file: path={{ dump_remote }} owner=debian-sks group=debian-sks mode=0777 state=directory
+   - synchronize: src={{ dump_local }} dest={{ dump_remote }}
+   - file: path={{ dump_remote }} owner=debian-sks group=debian-sks mode=0755 state=directory

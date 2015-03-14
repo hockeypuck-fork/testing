@@ -13,5 +13,5 @@ respawn limit unlimited
 setuid hockeypuck
 
 # Start the process
-exec /usr/bin/hockeypuck -config /etc/hockeypuck/hockeypuck.conf
+exec /usr/bin/hockeypuck {% if memprof %}-memprof {% endif %}-config /etc/hockeypuck/hockeypuck.conf
 

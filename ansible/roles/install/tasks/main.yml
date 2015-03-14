@@ -9,7 +9,7 @@
     - /etc/hockeypuck
 
 # Install Hockeypuck service & binary
-- copy: src=hockeypuck.conf dest=/etc/init/hockeypuck.conf owner=hockeypuck group=hockeypuck mode=0644
+- template: src=hockeypuck.conf.j2 dest=/etc/init/hockeypuck.conf owner=hockeypuck group=hockeypuck mode=0644
 - local_action: shell go build -o hockeypuck github.com/hockeypuck/server/cmd/hockeypuck
   sudo: no
 - service: name=hockeypuck state=stopped

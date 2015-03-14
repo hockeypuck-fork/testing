@@ -1,4 +1,5 @@
 ---
+- hosts: sks
 - hosts: hockeypuck
   sudo: yes
   roles:

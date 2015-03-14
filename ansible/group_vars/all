@@ -1,5 +1,6 @@
 ---
 loglevel: DEBUG
+memprof: true
 
 dump_source: rsync://keyserver.secretresearchfacility.com/dump/
 dump_local: /var/data/sks-dump/
