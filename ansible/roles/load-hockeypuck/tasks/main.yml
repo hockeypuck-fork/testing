@@ -1,0 +1,5 @@
+---
+- service: name=hockeypuck state=stopped
+- service: name=mongodb state=started
+- shell: su - hockeypuck -c 'hockeypuck-load -config /etc/hockeypuck/hockeypuck.conf {{dump_remote}}/\*.pgp 2>&1 >/var/log/hockeypuck/load-$(date +%Y%m%d%H%M).log'
+- service: name=hockeypuck state=started
