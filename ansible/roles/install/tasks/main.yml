@@ -12,14 +12,17 @@
 - template: src=hockeypuck.conf.j2 dest=/etc/init/hockeypuck.conf owner=hockeypuck group=hockeypuck mode=0644
 - local_action: shell go build -o {{ item }} github.com/hockeypuck/server/cmd/{{ item }}
   sudo: no
+  run_once: true
   with_items:
     - hockeypuck
     - hockeypuck-load
+    - hockeypuck-pbuild
 - service: name=hockeypuck state=stopped
 - copy: src={{ item }} dest=/usr/bin/{{ item }} mode=0755
   with_items:
     - hockeypuck
     - hockeypuck-load
+    - hockeypuck-pbuild
 
 # Install MongoDB
 - apt: pkg=mongodb-server update_cache=yes state=latest

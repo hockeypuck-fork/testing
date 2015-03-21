@@ -1,5 +1,5 @@
 ---
-loglevel: DEBUG
+loglevel: INFO
 memprof: true
 
 dump_source: rsync://keyserver.secretresearchfacility.com/dump/
