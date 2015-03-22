@@ -1,7 +1,13 @@
 ---
+- set_fact: driver="mongo"
+  when: driver is not defined
+
 - template: src=hockeypuck.conf.j2 dest=/etc/hockeypuck/hockeypuck.conf mode=0644
-- service: name={{ item }} state=restarted
-  with_items:
-   - mongodb
-   - hockeypuck
+
+- service: name=postgresql state=restarted
+  when: driver == "postgres"
+- service: name=mongodb state=restarted
+  when: driver == "mongo"
+
+- service: name=hockeypuck state=restarted
 
