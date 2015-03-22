@@ -8,6 +8,7 @@
 - file: path={{ item }} owner=hockeypuck group=hockeypuck mode=0755 state=directory
   with_items:
     - /var/lib/hockeypuck
+    - /var/lib/hockeypuck/templates
     - /var/log/hockeypuck
     - /etc/hockeypuck
 
@@ -26,6 +27,12 @@
     - hockeypuck
     - hockeypuck-load
     - hockeypuck-pbuild
+
+- git: repo=https://github.com/hockeypuck/webroot.git dest=/var/lib/hockeypuck/www
+- copy: src={{ lookup('env', 'GOPATH') }}/src/github.com/hockeypuck/server/cmd/hockeypuck/{{ item }} dest=/var/lib/hockeypuck/templates/{{ item }}
+  with_items:
+    - index.html.tmpl
+    - stats.html.tmpl
 
 # Install MongoDB
 - apt: pkg=mongodb-server update_cache=yes state=latest
