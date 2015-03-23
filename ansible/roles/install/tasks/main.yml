@@ -28,6 +28,7 @@
     - hockeypuck-load
     - hockeypuck-pbuild
 
+- apt: name=git update_cache=yes state=latest
 - git: repo=https://github.com/hockeypuck/webroot.git dest=/var/lib/hockeypuck/www
 - copy: src={{ lookup('env', 'GOPATH') }}/src/github.com/hockeypuck/server/cmd/hockeypuck/{{ item }} dest=/var/lib/hockeypuck/templates/{{ item }}
   with_items:
@@ -35,7 +36,7 @@
     - stats.html.tmpl
 
 # Install MongoDB
-- apt: pkg=mongodb-server update_cache=yes state=latest
+- apt: pkg=mongodb-server state=latest
   when: driver == "mongo"
 - service: name=mongodb state=stopped
   when: driver == "mongo"
@@ -45,9 +46,9 @@
   when: driver == "postgres"
 - apt_key: url='https://www.postgresql.org/media/keys/ACCC4CF8.asc' state=present
   when: driver == "postgres"
-- apt: name=postgresql-9.4 update_cache=yes state=latest 
+- apt: name=postgresql-9.4 state=latest 
   when: driver == "postgres"
 - shell: su - postgres -c 'createuser -d -l hockeypuck' || true
   when: driver == "postgres"
-- shell: su - hockeypuck -c 'createdb keys' || true
+- shell: su - hockeypuck -c 'createdb hkp' || true
   when: driver == "postgres"

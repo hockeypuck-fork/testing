@@ -1,10 +1,23 @@
 ---
+- set_fact: driver="mongo"
+  when: driver is not defined
+
 - service: name=hockeypuck state=stopped
 - service: name=mongodb state=started
-- shell: date '+%Y%m%d%H%M%S'
-  register: ts
-- shell: mongo hkp --eval "db.copyDatabase('hkp', 'hkp_{{ ts.stdout }}')"
+  when: driver == "mongo"
+- service: name=postgresql state=started
+  when: driver == "postgres"
+
 - shell: mongo hkp --eval "db.dropDatabase()"
-- shell: mv /var/log/hockeypuck/hockeypuck.log "/var/log/hockeypuck/hockeypuck.log.{{ ts.stdout }}"
-- shell: mv /var/lib/hockeypuck/recon-ptree "/var/lib/hockeypuck/recon-ptree.{{ ts.stdout }}"
+  when: driver == "mongo"
+- shell: sudo su - hockeypuck -c 'dropdb hkp; createdb hkp;'
+  when: driver == "postgres"
+
+- file: path={{ item }} state=absent
+  with_items:
+    - /var/log/hockeypuck/hockeypuck.log
+    - /var/lib/hockeypuck/recon-ptree
+    - /var/lib/hockeypuck/.recon-ptree.stats
+
 - service: name=hockeypuck state=restarted
+

@@ -12,7 +12,7 @@ bind=":11371"
 {% if driver == "postgres" %}
 [hockeypuck.openpgp.db]
 driver="postgres-jsonb"
-dsn="database=keys host=/var/run/postgresql port=5432 sslmode=disable"
+dsn="database=hkp host=/var/run/postgresql port=5432 sslmode=disable"
 
 {% endif %}
 [hockeypuck.conflux.recon]
