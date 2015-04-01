@@ -3,6 +3,7 @@
   when: driver is not defined
 
 - template: src=hockeypuck.conf.j2 dest=/etc/hockeypuck/hockeypuck.conf mode=0644
+- copy: src=default_hockeypuck dest=/etc/default/hockeypuck
 
 - service: name=postgresql state=restarted
   when: driver == "postgres"
