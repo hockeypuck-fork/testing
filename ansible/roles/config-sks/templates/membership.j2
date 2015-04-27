@@ -14,7 +14,17 @@
 
 {% for host in groups["peers"] %}
 {% if hostvars[host]['inventory_hostname'] != inventory_hostname %}
+{% if use_inventory_name %}
+{{ hostvars[host]['inventory_hostname'] }} 11370
+{% elif use_ipv4 %}
 {{ hostvars[host]['ansible_default_ipv4']['address'] }} 11370
+{% elif use_ipv6 %}
+{{ hostvars[host]['ansible_default_ipv6']['address'] }} 11370
+{% endif %}
 {% endif %}
 {% endfor %}
+
+{% if extra_membership|default("") %}
+{{ extra_membership }} 11370
+{% endif %}
 

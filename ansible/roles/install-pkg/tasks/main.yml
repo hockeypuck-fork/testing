@@ -16,7 +16,7 @@
   when: driver == "postgres"
 - apt_key: url='https://www.postgresql.org/media/keys/ACCC4CF8.asc' state=present
   when: driver == "postgres"
-- apt: name=postgresql-9.4 state=latest 
+- apt: name=postgresql-9.4 state=latest update_cache=yes
   when: driver == "postgres"
 - shell: su - postgres -c 'createuser -d -l hockeypuck' || true
   when: driver == "postgres"
